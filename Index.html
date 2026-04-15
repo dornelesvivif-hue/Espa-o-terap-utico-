@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seu Espaço Terapêutico - Viviane Fernandes</title>
+  <style>
+    :root {
+      --verde-principal: #7B9E87;
+      --verde-escuro: #5A7A5C;
+      --verde-texto: #2C3E2D;
+      --marrom-principal: #8B5E52;
+      --marrom-escuro: #3D2B24;
+      --marrom-claro: #C4836A;
+      --fundo-neutro: #FAF8F5;
+      --fundo-alternativo: #F2F5F1;
+      --accent-dourado: #D4AF37;
+    }
+    
+    [data-theme="dark"] {
+      --fundo-neutro: #1a1a1a;
+      --fundo-alternativo: #2d2d2d;
+      --marrom-escuro: #e0e0e0;
+      --verde-texto: #a8d5ba;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--fundo-neutro);
+      color: var(--marrom-escuro);
+      line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    
+    /* LOGIN PREMIUM */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--verde-principal) 0%, var(--marrom-claro) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    #login-screen::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: float 20s linear infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+    
+    .login-box {
+      background: white;
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.6s ease;
+    }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .login-box .welcome-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .login-box h1 {
+      color: var(--verde-texto);
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    
+    .login-box .subtitle {
+      color: var(--verde-escuro);
+      margin-bottom: 30px;
+      font-size: 15px;
+      font-style: italic;
+    }
+    
+    #password-input {
+      width: 100%;
+      padding: 16px;
+      border: 2px solid var(--verde-principal);
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+    }
+    
+    #password-input:focus {
+      outline: none;
+      border-color: var(--marrom-claro);
+      box-shadow: 0 0 0 4px rgba(196, 131, 106, 0.1);
+    }
+    
+    #login-button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--verde-principal), var(--verde-escuro));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    #login-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(123, 158, 135, 0.3);
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      font-size: 14px;
+      margin-top: 16px;
+      display: none;
+      animation: shake 0.5s;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+    
+    .error-message.show { display: block; }
+    
+    /* BARRA DE PROGRESSO */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--verde-principal), var(--accent-dourado));
+      z-index: 9999;
+      transition: width 0.3s ease;
+    }
+    
+    /* HEADER PREMIUM */
+    .top-bar {
+      background: linear-gradient(135deg, var(--marrom-principal), var(--marrom-claro));
+      color: white;
+      padding: 12px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .user-welcome {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .visit-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+    
+    .top-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    
+    .theme-toggle {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    
+    .theme-toggle:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    /* SIDEBAR PREMIUM */
+    .sidebar {
+      width: 320px;
+      background: var(--fundo-alternativo);
+      padding: 30px 20px;
+      border-right: 2px solid var(--verde-principal);
+      position: fixed;
+      height: calc(100vh - 50px);
+      top: 50px;
+      overflow-y: auto;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+    }
+    
+    .sidebar-header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--verde-principal), var(--verde-escuro));
+      border-radius: 12px;
+      color: white;
+    }
+    
+    .sidebar-header h2 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+    
+    .sidebar-header p {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+    
+    /* FRASE MOTIVACIONAL */
+    .daily-quote {
+      background: linear-gradient(135deg, #fff9e6, #ffe6cc);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      border-left: 4px solid var(--accent-dourado);
+      animation: fadeIn 1s;
+    }
+    
+    .daily-quote .quote-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    
+    .daily-quote p {
+      font-size: 14px;
+      font-style: italic;
+      color: var(--marrom-escuro);
+      line-height: 1.6;
+    }
+    
+    /* PROGRESSO DE EXPLORAÇÃO */
+    .exploration-progress {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .exploration-progress h4 {
+      font-size: 13px;
+      color: var(--verde-escuro);
+      margin-bottom: 12px;
+    }
+    
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--verde-principal), var(--accent-dourado));
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    
+    .progress-text {
+      font-size: 12px;
+      color: var(--verde-escuro);
+      margin-top: 8px;
+      text-align: center;
+    }
+    
+    .nav-link {
+      display: block;
+      padding: 14px 18px;
+      margin: 8px 0;
+      color: var(--verde-escuro);
+      text-decoration: none;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-size: 14px;
+      position: relative;
+    }
+    
+    .nav-link:hover {
+      background: var(--verde-principal);
+      color: white;
+      transform: translateX(6px);
+    }
+    
+    .nav-link.active {
+      background: linear-gradient(135deg, var(--marrom-claro), var(--marrom-principal));
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(196, 131, 106, 0.3);
+    }
+    
+    .nav-link.visited::after {
+      content: '✓';
+      position: absolute;
+      right: 18px;
+      color: var(--accent-dourado);
+      font-weight: bold;
+    }
+    
+    /* FERRAMENTAS RÁPIDAS */
+    .quick-tools {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      margin: 24px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .quick-tools h4 {
+      font-size: 13px;
+      color: var(--marrom-escuro);
+      margin-bottom: 12px;
+    }
+    
+    .tool-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      background: var(--fundo-alternativo);
+      border: 1px solid var(--verde-principal);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--marrom-escuro);
+      transition: all 0.3s;
+    }
+    
+    .tool-btn:hover {
+      background: var(--verde-principal);
+      color: white;
+      transform: scale(1.02);
+    }
+    
+    /* CONTENT AREA */
+    .content-area {
+      margin-left: 320px;
+      margin-top: 50px;
+      padding: 40px;
+      max-width: 1000px;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeInUp 0.5s ease;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* CARDS PREMIUM */
+    .premium-card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      margin: 24px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border-left: 4px solid var(--verde-principal);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .premium-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    
+    .premium-card.featured {
+      background: linear-gradient(135deg, #fff9e6 0%, #ffe6cc 100%);
+      border-left-color: var(--accent-dourado);
+    }
+    
+    /* EXERCÍCIO DE RESPIRAÇÃO INTERATIVO */
+    .breathing-exercise {
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      margin: 24px 0;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+    
+    .breathing-circle {
+      width: 200px;
+      height: 200px;
+      margin: 30px auto;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(123,158,135,0.3), rgba(123,158,135,0.8));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 600;
+      color: white;
+      transition: transform 4s ease-in-out;
+    }
+    
+    .breathing-circle.inhale {
+      transform: scale(1.5);
+    }
+    
+    .breathing-circle.exhale {
+      transform: scale(1);
+    }
+    
+    .breathing-controls button {
+      padding: 12px 32px;
+      margin: 8px;
+      background: var(--verde-principal);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .breathing-controls button:hover {
+      background: var(--verde-escuro);
+      transform: scale(1.05);
+    }
+    
+    /* DIÁRIO DE EMOÇÕES */
+    .emotion-wheel {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+    
+    .emotion-btn {
+      padding: 24px 16px;
+      border-radius: 16px;
+      border: 2px solid transparent;
+      background: var(--fundo-alternativo);
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+    
+    .emotion-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    
+    .emotion-btn.selected {
+      border-color: var(--verde-principal);
+      background: rgba(123,158,135,0.1);
+    }
+    
+    .emotion-icon {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    
+    .emotion-label {
+      font-size: 14px;
+      color: var(--marrom-escuro);
+      font-weight: 500;
+    }
+    
+    /* DEPOIMENTOS ANÔNIMOS */
+    .testimonial-card {
+      background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+      padding: 24px;
+      border-radius: 12px;
+      margin: 16px 0;
+      border-left: 4px solid var(--marrom-claro);
+      font-style: italic;
+    }
+    
+    .testimonial-card::before {
+      content: '"';
+      font-size: 48px;
+      color: var(--marrom-claro);
+      opacity: 0.3;
+      line-height: 0;
+    }
+    
+    .testimonial-text {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--marrom-escuro);
+      margin: 16px 0;
+    }
+    
+    .testimonial-author {
+      text-align: right;
+      font-size: 13px;
+      color: var(--verde-escuro);
+      font-weight: 600;
+    }
+    
+    /* PREPARAÇÃO PARA SESSÃO */
+    .session-prep {
+      background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+      padding: 32px;
+      border-radius: 16px;
+      margin: 24px 0;
+    }
+    
+    .prep-checklist {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .prep-checklist li {
+      padding: 12px;
+      margin: 8px 0;
+      background: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .prep-checklist li input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+    
+    /* ESTATÍSTICAS VOCÊ NÃO ESTÁ SOZINHO */
+    .solidarity-stats {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      padding: 32px;
+      border-radius: 16px;
+      margin: 24px 0;
+    }
+    
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--marrom-principal);
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 13px;
+      color: var(--verde-escuro);
+      margin-top: 8px;
+    }
+    
+    /* RESPONSIVO */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 2px solid var(--verde-principal);
+      }
+      
+      .content-area {
+        margin-left: 0;
+        margin-top: 0;
+        padding: 20px;
+      }
+      
+      .breathing-circle {
+        width: 150px;
+        height: 150px;
+      }
+    }
+    
+    .hide { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progress-bar"></div>
+  
+  <!-- LOGIN -->
+  <div id="login-screen">
+    <div class="login-box">
+      <div class="welcome-icon">🌱</div>
+      <h1>Bem-vindo(a) ao Seu Espaço Terapêutico</h1>
+      <p class="subtitle">Um lugar seguro para crescer e se cuidar</p>
+      
+      <input 
+        type="password" 
+        id="password-input" 
+        placeholder="Digite sua senha de acesso"
+        autocomplete="off"
+      >
+      
+      <button id="login-button">Entrar no Meu Espaço</button>
+      
+      <p class="error-message" id="error-message">
+        ❌ Senha incorreta. Tente novamente ou entre em contato comigo.
+      </p>
+      
+      <p style="margin-top: 32px; font-size: 12px; color: #666;">
+        Este é seu espaço exclusivo de apoio terapêutico.<br>
+        <strong>Viviane Fernandes Dorneles</strong> - Psicóloga Clínica CRP 07/18640
+      </p>
+    </div>
+  </div>
+  
+  <!-- MAIN CONTENT -->
+  <div id="main-content" class="hide">
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <div class="user-welcome">
+        <span id="welcome-message">Olá! 💚</span>
+        <span class="visit-badge" id="visit-badge">1ª visita</span>
+      </div>
+      <div class="top-controls">
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Modo Escuro</button>
+        <button class="theme-toggle" onclick="logout()">Sair</button>
+      </div>
+    </div>
+    
+    <div style="display: flex;">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>Seu Espaço Terapêutico</h2>
+          <p>Viviane Fernandes Dorneles</p>
+        </div>
+        
+        <!-- FRASE MOTIVACIONAL DO DIA -->
+        <div class="daily-quote">
+          <div class="quote-icon">💭</div>
+          <p id="daily-quote-text">A coragem não é ausência de medo, mas a decisão de que algo é mais importante que o medo.</p>
+        </div>
+        
+        <!-- PROGRESSO DE EXPLORAÇÃO -->
+        <div class="exploration-progress">
+          <h4>📊 Sua Jornada de Exploração</h4>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="exploration-fill"></div>
+          </div>
+          <p class="progress-text" id="exploration-text">0% explorado</p>
+        </div>
+        
+        <!-- NAVEGAÇÃO -->
+        <nav class="nav-menu">
+          <a class="nav-link active" data-tab="inicio" data-tab-index="0">🏠 Início</a>
+          <a class="nav-link" data-tab="ferramentas" data-tab-index="1">🧰 Ferramentas Terapêuticas</a>
+          <a class="nav-link" data-tab="infantil" data-tab-index="2">🧸 Atendimento Infantil</a>
+          <a class="nav-link" data-tab="adolescentes" data-tab-index="3">👥 Adolescentes</a>
+          <a class="nav-link" data-tab="adultos" data-tab-index="4">💚 Adultos</a>
+          <a class="nav-link" data-tab="online" data-tab-index="5">💻 Atendimento Online</a>
+          <a class="nav-link" data-tab="pagamentos" data-tab-index="6">💳 Política de Pagamentos</a>
+          <a class="nav-link" data-tab="sobre" data-tab-index="7">✨ Sobre Mim</a>
+          <a class="nav-link" data-tab="feedback" data-tab-index="8">📝 Deixe seu Feedback</a>
+        </nav>
+        
+        <!-- FERRAMENTAS RÁPIDAS -->
+        <div class="quick-tools">
+          <h4>⚡ Acesso Rápido</h4>
+          <button class="tool-btn" onclick="showTab('ferramentas')">🫁 Exercício de Respiração</button>
+          <button class="tool-btn" onclick="showEmotionWheel()">😊 Como me sinto hoje?</button>
+        </div>
+      </aside>
+      
+      <!-- CONTENT -->
+      <main class="content-area">
+        <!-- TAB: INÍCIO -->
+        <div id="inicio" class="tab-content active">
+          <h1 style="color: var(--verde-texto); font-size: 36px;">Bem-vindo(a) ao Seu Espaço Terapêutico 💚</h1>
+          
+          <div class="premium-card featured">
+            <h3 style="color: var(--marrom-escuro); margin-bottom: 16px;">✨ Este é um espaço só seu</h3>
+            <p style="font-size: 17px; line-height: 1.8;">
+              Aqui você encontra recursos, ferramentas e informações personalizadas para apoiar 
+              sua jornada terapêutica. Explore no seu tempo, volte quando quiser, e lembre-se: 
+              <strong>você não está sozinho(a) nessa caminhada.</strong>
+            </p>
+          </div>
+          
+          <!-- VOCÊ NÃO ESTÁ SOZINHO -->
+          <div class="solidarity-stats">
+            <h3 style="color: var(--marrom-escuro); margin-bottom: 8px;">💙 Você Não Está Sozinho(a)</h3>
+            <p style="font-size: 15px; margin-bottom: 20px; color: var(--verde-escuro);">
+              Milhões de pessoas buscam ajuda terapêutica todos os anos. Cuidar da saúde mental é sinal de coragem.
+            </p>
+            <div class="stat-grid">
+              <div class="stat-item">
+                <span class="stat-number">1 em 4</span>
+                <span class="stat-label">pessoas vão enfrentar questões de saúde mental ao longo da vida</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">264 mi</span>
+                <span class="stat-label">de pessoas vivem com ansiedade no mundo</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">85%</span>
+                <span class="stat-label">relatam melhora significativa com terapia</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- DEPOIMENTOS ANÔNIMOS -->
+          <h2 style="color: var(--verde-escuro); margin-top: 40px;">💬 Palavras de Quem Está na Jornada</h2>
+          
+          <div class="testimonial-card">
+            <p class="testimonial-text">
+              A terapia me ensinou que sentir não é fraqueza. Aprendi a acolher minhas emoções 
+              sem julgamento e isso mudou tudo.
+            </p>
+            <p class="testimonial-author">— Paciente em processo há 8 meses</p>
+          </div>
+          
+          <div class="testimonial-card">
+            <p class="testimonial-text">
+              Vim achando que precisava 'consertar' algo em mim. Descobri que o processo é sobre 
+              me conhecer melhor e aceitar quem eu sou.
+            </p>
+            <p class="testimonial-author">— Paciente em processo há 1 ano</p>
+          </div>
+          
+          <div class="premium-card">
+            <h3>🗺️ Navegue pelo Conteúdo</h3>
+            <ul style="margin-left: 20px; color: var(--verde-escuro); line-height: 2;">
+              <li><strong>🧰 Ferramentas Terapêuticas:</strong> Exercícios práticos de respiração e autorregulação</li>
+              <li><strong>🧸 Infantil:</strong> Recursos para crianças e orientação parental</li>
+              <li><strong>👥 Adolescentes:</strong> Animes, músicas e quando pedir ajuda</li>
+              <li><strong>💚 Adultos:</strong> Vídeos sobre TCC, ACT, podcasts recomendados</li>
+              <li><strong>💳 Pagamentos:</strong> Política transparente de valores e formas</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- TAB: FERRAMENTAS TERAPÊUTICAS -->
+        <div id="ferramentas" class="tab-content">
+          <h1 style="color: var(--verde-texto);">🧰 Ferramentas Terapêuticas</h1>
+          
+          <p style="font-size: 17px; margin: 20px 0;">
+            Recursos práticos para você usar entre as sessões e no seu dia a dia.
+          </p>
+          
+          <!-- EXERCÍCIO DE RESPIRAÇÃO -->
+          <div class="breathing-exercise">
+            <h3 style="color: var(--verde-escuro); margin-bottom: 16px;">🫁 Exercício de Respiração 4-7-8</h3>
+            <p style="font-size: 15px; margin-bottom: 24px;">
+              Técnica comprovada para reduzir ansiedade e induzir relaxamento.<br>
+              <strong>Inspire por 4s, segure por 7s, expire por 8s.</strong>
+            </p>
+            
+            <div class="breathing-circle" id="breathing-circle">
+              <span id="breathing-text">Pronto</span>
+            </div>
+            
+            <div class="breathing-controls">
+              <button onclick="startBreathing()">▶️ Iniciar</button>
+              <button onclick="stopBreathing()">⏹️ Parar</button>
+            </div>
+            
+            <p style="font-size: 13px; margin-top: 20px; opacity: 0.8;">
+              💡 Dica: Faça 4 ciclos completos. Use sempre que sentir ansiedade, antes de dormir, ou para se centrar.
+            </p>
+          </div>
+          
+          <!-- RODA DAS EMOÇÕES -->
+          <div class="premium-card">
+            <h3 style="color: var(--marrom-escuro); margin-bottom: 16px;">😊 Como Você Está Se Sentindo Agora?</h3>
+            <p style="font-size: 15px; margin-bottom: 20px;">
+              Identificar e nomear emoções é o primeiro passo para regulá-las. Selecione como você se sente:
+            </p>
+            
+            <div class="emotion-wheel">
+              <div class="emotion-btn" onclick="selectEmotion(this, 'Feliz')">
+                <span class="emotion-icon">😊</span>
+                <span class="emotion-label">Feliz</span>
+              </div>
+              <div class="emotion-btn" onclick="selectEmotion(this, 'Triste')">
+                <span class="emotion-icon">😢</span>
+                <span class="emotion-label">Triste</span>
+              </div>
+              <div class="emotion-btn" onclick="selectEmotion(this, 'Ansioso')">
+                <span class="emotion-icon">😰</span>
+                <span class="emotion-label">Ansioso(a)</span>
+              </div>
+              <div class="emotion-btn" onclick="selectEmotion(this, 'Calmo')">
+                <span class="emotion-icon">😌</span>
+                <span class="emotion-label">Calmo(a)</span>
+              </div>
+              <div class="emotion-btn" onclick="selectEmotion(this, 'Frustrado')">
+                <span class="emotion-icon">😤</span>
+                <span class="emotion-label">Frustrado(a)</span>
+              </div>
+              <div class="emotion-btn" onclick="selectEmotion(this, 'Esperancoso')">
+                <span class="emotion-icon">🌟</span>
+                <span class="emotion-label">Esperançoso(a)</span>
+              </div>
+            </div>
+            
+            <div id="emotion-response" style="margin-top: 20px; padding: 16px; background: var(--fundo-alternativo); border-radius: 8px; display: none;">
+              <p style="font-size: 14px; color: var(--verde-escuro);"></p>
+            </div>
+          </div>
+          
+          <!-- PREPARAÇÃO PARA SESSÃO -->
+          <div class="session-prep">
+            <h3 style="color: var(--marrom-escuro); margin-bottom: 16px;">📝 Preparando-se para a Próxima Sessão</h3>
+            <p style="font-size: 15px; margin-bottom: 20px;">
+              Refletir antes da sessão pode torná-la mais produtiva. Use este checklist:
+            </p>
+            
+            <ul class="prep-checklist">
+              <li>
+                <input type="checkbox" id="prep1">
+                <label for="prep1">Como me senti desde a última sessão? O que aconteceu de importante?</label>
+              </li>
+              <li>
+                <input type="checkbox" id="prep2">
+                <label for="prep2">Pratiquei alguma técnica que aprendemos? Como foi?</label>
+              </li>
+              <li>
+                <input type="checkbox" id="prep3">
+                <label for="prep3">Há algo específico que quero trabalhar hoje?</label>
+              </li>
+              <li>
+                <input type="checkbox" id="prep4">
+                <label for="prep4">Tenho dúvidas sobre algo que discutimos antes?</label>
+              </li>
+              <li>
+                <input type="checkbox" id="prep5">
+                <label for="prep5">Como está meu autocuidado? Estou dormindo/comendo bem?</label>
+              </li>
+            </ul>
+            
+            <p style="font-size: 13px; margin-top: 16px; font-style: italic;">
+              💡 Não precisa ter tudo pronto. Às vezes o mais importante surge na hora. Este é apenas um guia.
+            </p>
+          </div>
+          
+          <!-- DIÁRIO DE GRATIDÃO -->
+          <div class="premium-card">
+            <h3 style="color: var(--marrom-escuro); margin-bottom: 16px;">🌻 Momento de Gratidão</h3>
+            <p style="font-size: 15px; margin-bottom: 16px;">
+              Liste 3 coisas pelas quais você é grato(a) hoje, por menores que sejam:
+            </p>
+            <textarea 
+              id="gratitude-notes"
+              style="width: 100%; padding: 16px; border: 2px solid var(--verde-principal); border-radius: 8px; min-height: 120px; font-family: inherit; font-size: 14px;"
+              placeholder="1. O café quentinho da manhã...&#10;2. A conversa com um amigo...&#10;3. ..."
+            ></textarea>
+            <p style="font-size: 13px; margin-top: 12px; color: var(--verde-escuro);">
+              💡 A prática diária de gratidão está cientificamente comprovada como redutora de ansiedade e depressão.
+            </p>
+          </div>
+        </div>
+        
+        <!-- Continue with other tabs... -->
+        
+      </main>
+    </div>
+  </div>
+  
+  <script>
+    // ==================== CONFIGURAÇÕES ====================
+    const CORRECT_PASSWORD = '1857psi';
+    
+    const quotes = [
+      "A coragem não é ausência de medo, mas a decisão de que algo é mais importante que o medo.",
+      "Cuidar de você não é egoísmo. É autocuidado, e você merece isso.",
+      "Pequenos passos ainda são progresso. Celebre cada conquista.",
+      "Você não precisa ser perfeito(a) para ser digno(a) de amor e cuidado.",
+      "A vulnerabilidade é o berço da coragem, criatividade e mudança.",
+      "Pedir ajuda não é fraqueza. É um ato de autocuidado e sabedoria.",
+      "Cada dia é uma nova chance de escolher gentileza consigo mesmo(a).",
+      "Suas emoções são válidas. Todas elas. Não há emoção 'errada'.",
+      "O processo terapêutico não é linear. Altos e baixos fazem parte da jornada.",
+      "Você está fazendo o melhor que pode com os recursos que tem agora."
+    ];
+    
+    // ==================== LOGIN ====================
+    document.getElementById('password-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') checkPassword();
+    });
+    
+    document.getElementById('login-button').addEventListener('click', checkPassword);
+    
+    function checkPassword() {
+      const input = document.getElementById('password-input');
+      const errorMsg = document.getElementById('error-message');
+      
+      if (input.value === CORRECT_PASSWORD) {
+        localStorage.setItem('auth', 'true');
+        unlockContent();
+      } else {
+        errorMsg.classList.add('show');
+        input.value = '';
+        input.focus();
+        setTimeout(() => errorMsg.classList.remove('show'), 3000);
+      }
+    }
+    
+    function unlockContent() {
+      document.getElementById('login-screen').classList.add('hide');
+      document.getElementById('main-content').classList.remove('hide');
+      
+      // Registrar visita
+      registerVisit();
+      
+      // Inicializar features
+      updateWelcomeMessage();
+      setDailyQuote();
+      initializeProgress();
+    }
+    
+    function logout() {
+      if (confirm('Deseja sair do seu espaço terapêutico?')) {
+        localStorage.removeItem('auth');
+        location.reload();
+      }
+    }
+    
+    // Auto-login se já autenticado
+    if (localStorage.getItem('auth') === 'true') {
+      unlockContent();
+    }
+    
+    // ==================== VISITAS ====================
+    function registerVisit() {
+      const visits = JSON.parse(localStorage.getItem('page-visits') || '[]');
+      visits.push({
+        timestamp: new Date().toISOString(),
+        type: 'page_view'
+      });
+      localStorage.setItem('page-visits', JSON.stringify(visits));
+    }
+    
+    function updateWelcomeMessage() {
+      const visits = JSON.parse(localStorage.getItem('page-visits') || '[]');
+      const count = visits.length;
+      
+      const messages = [
+        "Olá! Seja muito bem-vindo(a) 💚",
+        "Que bom te ver de novo! 🌱",
+        "Feliz em te receber novamente! ✨",
+        "Continue sua jornada! 🌟",
+        "Você está indo muito bem! 💪"
+      ];
+      
+      const message = count <= messages.length ? messages[count - 1] : messages[messages.length - 1];
+      document.getElementById('welcome-message').textContent = message;
+      
+      let badge = count === 1 ? '1ª visita' : `${count}ª visita`;
+      if (count > 10) badge = `${count}+ visitas! 🎉`;
+      
+      document.getElementById('visit-badge').textContent = badge;
+    }
+    
+    // ==================== FRASES MOTIVACIONAIS ====================
+    function setDailyQuote() {
+      const today = new Date().toDateString();
+      const savedQuote = localStorage.getItem('daily-quote-date');
+      
+      if (savedQuote !== today) {
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('daily-quote-text').textContent = randomQuote;
+        localStorage.setItem('daily-quote-date', today);
+        localStorage.setItem('daily-quote-text', randomQuote);
+      } else {
+        const saved = localStorage.getItem('daily-quote-text');
+        document.getElementById('daily-quote-text').textContent = saved || quotes[0];
+      }
+    }
+    
+    // ==================== PROGRESSO ====================
+    function initializeProgress() {
+      const visited = JSON.parse(localStorage.getItem('tabs-visited') || '[]');
+      const total = 9; // Total de abas
+      const percentage = Math.round((visited.length / total) * 100);
+      
+      document.getElementById('exploration-fill').style.width = percentage + '%';
+      document.getElementById('exploration-text').textContent = percentage + '% explorado';
+      
+      // Marcar abas visitadas
+      visited.forEach(index => {
+        const link = document.querySelector(`[data-tab-index="${index}"]`);
+        if (link && !link.classList.contains('active')) {
+          link.classList.add('visited');
+        }
+      });
+    }
+    
+    function markTabVisited(index) {
+      const visited = JSON.parse(localStorage.getItem('tabs-visited') || '[]');
+      if (!visited.includes(index)) {
+        visited.push(index);
+        localStorage.setItem('tabs-visited', JSON.stringify(visited));
+        initializeProgress();
+      }
+    }
+    
+    // ==================== NAVEGAÇÃO ====================
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function() {
+        const tabId = this.getAttribute('data-tab');
+        const tabIndex = parseInt(this.getAttribute('data-tab-index'));
+        showTab(tabId);
+        markTabVisited(tabIndex);
+      });
+    });
+    
+    function showTab(tabId) {
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      
+      const link = document.querySelector(`[data-tab="${tabId}"]`);
+      if (link) link.classList.add('active');
+      
+      const tab = document.getElementById(tabId);
+      if (tab) {
+        tab.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+    
+    // ==================== EXERCÍCIO RESPIRAÇÃO ====================
+    let breathingInterval;
+    
+    function startBreathing() {
+      const circle = document.getElementById('breathing-circle');
+      const text = document.getElementById('breathing-text');
+      
+      let phase = 0;
+      const phases = [
+        { text: 'Inspire', class: 'inhale', duration: 4000 },
+        { text: 'Segure', class: 'inhale', duration: 7000 },
+        { text: 'Expire', class: 'exhale', duration: 8000 }
+      ];
+      
+      function runCycle() {
+        const current = phases[phase];
+        text.textContent = current.text;
+        circle.className = 'breathing-circle ' + current.class;
+        
+        breathingInterval = setTimeout(() => {
+          phase = (phase + 1) % 3;
+          runCycle();
+        }, current.duration);
+      }
+      
+      runCycle();
+    }
+    
+    function stopBreathing() {
+      clearTimeout(breathingInterval);
+      const circle = document.getElementById('breathing-circle');
+      const text = document.getElementById('breathing-text');
+      circle.className = 'breathing-circle';
+      text.textContent = 'Pronto';
+    }
+    
+    // ==================== EMOÇÕES ====================
+    function selectEmotion(btn, emotion) {
+      document.querySelectorAll('.emotion-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      
+      const responses = {
+        'Feliz': 'Que maravilha! 😊 Aproveite esse momento e permita-se sentir plenamente essa alegria.',
+        'Triste': 'É okay sentir tristeza. 💙 Suas emoções são válidas. Lembre-se de ser gentil consigo mesmo(a).',
+        'Ansioso': 'Respire fundo. 🫁 A ansiedade é desconfortável, mas você pode lidar com ela. Que tal fazer o exercício de respiração?',
+        'Calmo': 'Aproveite essa sensação de calma. ☮️ Estar em paz é um presente que você deu a si mesmo(a).',
+        'Frustrado': 'A frustração faz parte. 💪 É sinal de que você se importa. Seja paciente com seu processo.',
+        'Esperancoso': 'A esperança é poderosa! 🌟 Continue nutrindo essa energia positiva dentro de você.'
+      };
+      
+      const responseDiv = document.getElementById('emotion-response');
+      responseDiv.querySelector('p').textContent = responses[emotion];
+      responseDiv.style.display = 'block';
+    }
+    
+    function showEmotionWheel() {
+      showTab('ferramentas');
+      setTimeout(() => {
+        document.querySelector('.emotion-wheel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    }
+    
+    // ==================== TEMA ====================
+    function toggleTheme() {
+      const html = document.documentElement;
+      const btn = event.target;
+      
+      if (html.getAttribute('data-theme') === 'dark') {
+        html.removeAttribute('data-theme');
+        btn.textContent = '🌙 Modo Escuro';
+        localStorage.removeItem('theme');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        btn.textContent = '☀️ Modo Claro';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+    
+    // Carregar tema salvo
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      setTimeout(() => {
+        const btn = document.querySelector('.theme-toggle');
+        if (btn) btn.textContent = '☀️ Modo Claro';
+      }, 100);
+    }
+  </script>
+</body>
+</html>
